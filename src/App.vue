@@ -1,3 +1,3 @@
 <template>
-  <router-vie
+  <router-view />
 </template>
