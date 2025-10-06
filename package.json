@@ -21,9 +21,6 @@
     ],
     "*.{scss,css,vue}": [
       "stylelint --fix"
-    ],
-    "*.{ts,vue,scss,css,md,json}": [
-      "prettier --write"
     ]
   },
   "repository": {
