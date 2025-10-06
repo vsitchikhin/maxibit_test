@@ -4,7 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit",
+    "stylelint": "stylelint \"src/**/*.{scss,css,vue}\"",
+    "stylelint:fix": "stylelint \"src/**/*.{scss,css,vue}\" --fix",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,vue}": [
+      "eslint --fix"
+    ],
+    "*.{scss,css,vue}": [
+      "stylelint --fix"
+    ],
+    "*.{ts,vue,scss,css,md,json}": [
+      "prettier --write"
+    ]
   },
   "repository": {
     "type": "git",
@@ -22,9 +42,24 @@
     "vue": "^3.5.22"
   },
   "devDependencies": {
+    "@eslint/js": "^9.37.0",
     "@types/node": "^24.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/parser": "^8.45.0",
     "@vitejs/plugin-vue": "^6.0.1",
+    "eslint": "^9.37.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-vue": "^10.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.3",
+    "postcss": "^8.5.6",
+    "postcss-html": "^1.8.0",
+    "postcss-scss": "^4.0.9",
+    "stylelint": "^16.25.0",
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-standard-scss": "^16.0.0",
     "typescript": "^5.9.3",
+    "vue-eslint-parser": "^10.2.0",
     "vue-tsc": "^3.1.0"
   }
 }
