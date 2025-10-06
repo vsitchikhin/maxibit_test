@@ -1,0 +1,19 @@
+@use '../variables' as *;
+
+@mixin respond-from($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin sm-and-up { @include respond-from($bp-sm) { @content; } }
+
+@mixin md-and-up { @include respond-from($bp-md) { @content; } }
+
+@mixin lg-and-up { @include respond-from($bp-lg) { @content; } }
+
+@mixin sm-and-down { @media (max-width: $bp-sm) { @content; } }
+
+@mixin md-and-down { @media (max-width: $bp-md) { @content; } }
+
+@mixin lg-and-down { @media (max-width: $bp-lg) { @content; } }

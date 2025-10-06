@@ -15,6 +15,7 @@ export default [
       '.husky',
       'eslint.config.mjs',
       '.stylelintrc.cjs',
+      '.idea',
     ],
   },
 
