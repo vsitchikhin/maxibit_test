@@ -1,10 +1,14 @@
 <template>
   <div class="cocktail-page">
+    <v-icon v-if="!smAndUp" class="px-6 mb-6" @click="openDrawer">mdi-menu</v-icon>
+    <v-navigation-drawer v-if="!smAndUp" v-model="isDrawerOpen" temporary>
+      <side-panel v-model="currentCode" :codes="cocktailCodeList" />
+    </v-navigation-drawer>
     <v-row class="pa-0 ma-0">
-      <v-col cols="2" class="pa-0 ma-0">
+      <v-col v-if="smAndUp" cols="3" md="2" class="pa-0 ma-0">
         <side-panel v-model="currentCode" :codes="cocktailCodeList" />
       </v-col>
-      <v-col cols="12" sm="10" class="py-0 px-4 ma-0">
+      <v-col cols="12" sm="9" md="10" class="py-0 px-4 ma-0">
         <cocktail-info v-if="!!currentCocktail.data" :cocktail-info="currentCocktail.data" />
       </v-col>
     </v-row>
@@ -40,6 +44,7 @@ import { useRouter } from 'vue-router';
 import CocktailInfo from '@/components/CocktailInfo/CocktailInfo.vue';
 import { TOAST_TIMEOUT } from '@/consts/core.consts';
 import { LoadingStatusesEnum } from '@/types/api.types';
+import { useDisplay } from 'vuetify/framework';
 
 export default defineComponent({
   components: { CocktailInfo, SidePanel },
@@ -113,6 +118,15 @@ export default defineComponent({
     // Параметры лоадера
     const isShowLoader = computed(() => currentCocktail.value.status === LoadingStatusesEnum.loading);
 
+    // ------------------------------------------------------
+    // Медиа настройки
+    const { smAndUp } = useDisplay();
+
+    const isDrawerOpen = ref(false);
+    function openDrawer() {
+      isDrawerOpen.value = true;
+    }
+
     return {
       cocktailCodeList,
       currentCode,
@@ -124,6 +138,10 @@ export default defineComponent({
       TOAST_TIMEOUT,
 
       isShowLoader,
+
+      smAndUp,
+      isDrawerOpen,
+      openDrawer,
     };
   },
 });

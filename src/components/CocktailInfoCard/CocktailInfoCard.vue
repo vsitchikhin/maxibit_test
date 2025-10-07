@@ -2,20 +2,20 @@
   <div class="cocktail-info-card">
     <v-row>
       <v-col cols="6">
-        <div class="text-h4 mb-8">{{ cocktailData.strDrink }}</div>
-        <div class="text-body1 mb-1">{{ cocktailData.strCategory }}</div>
-        <div class="text-body1 mb-1">{{ cocktailData.strAlcoholic }}</div>
-        <div class="text-body1 mb-8">{{ cocktailData.strGlass }}</div>
-        <div class="text-body1">Instructions:</div>
-        <div class="text-body1">{{ cocktailData.strInstructions }}</div>
+        <div class="text-h5 text-sm-h4 mb-8">{{ cocktailData.strDrink }}</div>
+        <div class="text-body-2 text-sm-body-1 mb-1">{{ cocktailData.strCategory }}</div>
+        <div class="text-body-2 text-sm-body-1 mb-1">{{ cocktailData.strAlcoholic }}</div>
+        <div class="text-body-2 text-sm-body-1 mb-8">{{ cocktailData.strGlass }}</div>
+        <div v-if="mdAndUp" class="text-body-2 text-sm-body-1">Instructions:</div>
+        <div v-if="mdAndUp" class="text-body-2 text-sm-body-1">{{ cocktailData.strInstructions }}</div>
       </v-col>
       <v-col cols="6">
         <v-img
           v-if="cocktailData.strDrinkThumb"
           :src="cocktailData.strDrinkThumb"
           cover
-          height="400"
           :eager="false"
+          aspect-ratio="1"
           @error="onImageError"
           @load="onImageLoad"
         >
@@ -25,12 +25,14 @@
         </v-img>
       </v-col>
     </v-row>
+    <div v-if="!mdAndUp" class="text-body-2 text-sm-body-1">Instructions:</div>
+    <div v-if="!mdAndUp" class="text-body-2 text-sm-body-1">{{ cocktailData.strInstructions }}</div>
     <v-row v-for="(ingredient, index) in cocktailData.ingredients" :key="index">
       <v-col cols="3">
-        <div class="text-body1">{{ ingredient.measure }}</div>
+        <div class="text-body-2 text-sm-body-1">{{ ingredient.measure }}</div>
       </v-col>
       <v-col cols="3">
-        <div class="text-body1">{{ ingredient.name }}</div>
+        <div class="text-body-2 text-sm-body-1">{{ ingredient.name }}</div>
       </v-col>
     </v-row>
     <v-snackbar
@@ -48,6 +50,7 @@
 import { defineComponent, type PropType, ref } from 'vue';
 import type { ICocktail } from '@/types/coctail.types';
 import { TOAST_TIMEOUT } from '@/consts/core.consts';
+import { useDisplay } from 'vuetify/framework';
 
 export default defineComponent({
   props: {
@@ -61,6 +64,8 @@ export default defineComponent({
 
     const isShowToast = ref(false);
     const toastContent = ref<string | null>(null);
+
+    const { mdAndUp } = useDisplay();
 
     function onImageLoad() {
       isImageLoaded.value = true;
@@ -78,6 +83,8 @@ export default defineComponent({
       isShowToast,
       toastContent,
       TOAST_TIMEOUT,
+
+      mdAndUp,
 
       onImageLoad,
       onImageError,

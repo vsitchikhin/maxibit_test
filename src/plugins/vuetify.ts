@@ -1,27 +1,27 @@
 import 'vuetify/styles';
+import '@mdi/font/css/materialdesignicons.css';
 import { createVuetify } from 'vuetify';
+import { aliases, mdi } from 'vuetify/iconsets/mdi';
+
 
 export const vuetify = createVuetify({
   display: {
-    thresholds: {
-      xs: 0,
-      sm: 600,
-      md: 1024,
-      lg: 1280,
-      xl: 1920,
-    },
+    mobileBreakpoint: 'sm',
   },
   theme: {
     defaultTheme: 'light',
     themes: {
       light: {
         colors: {
-          primary: '#2E2E2E',
-          secondary: '#FF7B54',
           accent: '#00BFA6',
           error: '#E53935',
         },
       },
     },
+  },
+  icons: {
+    defaultSet: 'mdi',
+    aliases,
+    sets: { mdi },
   },
 });

@@ -5,6 +5,7 @@
       :key="code"
       :value="code"
       color="accent"
+      class="text-none"
     >
       {{ code }}
     </v-tab>
@@ -45,4 +46,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss">
+.text-none {
+  text-transform: none !important;
+}
+</style>
 
