@@ -20,6 +20,12 @@ export class CocktailsService extends Service {
   // --------------------------------------------------------
   // API запросы
   public async getCocktailInfo(code: CocktailNamesEnum) {
+    this.store.SET_COCKTAIL_STATE_BY_CODE(code, {
+      data: null,
+      error: null,
+      status: LoadingStatusesEnum.loading,
+    });
+
     const url = `${this.apiUrl}search.php?s=${code}`;
 
     try {

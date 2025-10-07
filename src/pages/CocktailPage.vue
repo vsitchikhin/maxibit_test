@@ -16,6 +16,18 @@
     >
       {{ toastContent }}
     </v-snackbar>
+    <v-overlay
+      :model-value="isShowLoader"
+      persistent
+      class="d-flex align-center justify-center"
+      scrim="rgba(0, 0, 0, 0.8)"
+    >
+      <v-progress-circular
+        indeterminate
+        color="accent"
+        size="64"
+      />
+    </v-overlay>
   </div>
 </template>
 
@@ -27,6 +39,7 @@ import SidePanel from '@/components/SidePanel/SidePanel.vue';
 import { useRouter } from 'vue-router';
 import CocktailInfo from '@/components/CocktailInfo/CocktailInfo.vue';
 import { TOAST_TIMEOUT } from '@/consts/core.consts';
+import { LoadingStatusesEnum } from '@/types/api.types';
 
 export default defineComponent({
   components: { CocktailInfo, SidePanel },
@@ -96,6 +109,10 @@ export default defineComponent({
     const cocktailList = computed(() => cocktailService.cocktails);
     const currentCocktail = computed(() => cocktailList.value[currentCode.value]);
 
+    // ------------------------------------------------------
+    // Параметры лоадера
+    const isShowLoader = computed(() => currentCocktail.value.status === LoadingStatusesEnum.loading);
+
     return {
       cocktailCodeList,
       currentCode,
@@ -105,6 +122,8 @@ export default defineComponent({
       isShowToast,
       toastContent,
       TOAST_TIMEOUT,
+
+      isShowLoader,
     };
   },
 });

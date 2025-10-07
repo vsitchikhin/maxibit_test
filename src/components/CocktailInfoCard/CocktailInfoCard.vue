@@ -18,7 +18,11 @@
           :eager="false"
           @error="onImageError"
           @load="onImageLoad"
-        />
+        >
+          <template #placeholder>
+            <v-skeleton-loader class="w-100 h-100" />
+          </template>
+        </v-img>
       </v-col>
     </v-row>
     <v-row v-for="(ingredient, index) in cocktailData.ingredients" :key="index">
