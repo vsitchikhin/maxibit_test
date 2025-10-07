@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>404 — Page Not Found</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --accent: #00BFA6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Roboto", system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #fafafa;
+      color: #333;
+    }
+
+    .img-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+
+    .img-wrap img {
+      width: 100%;
+      height: auto;
+    }
+
+    .btn {
+      border: none;
+      background: none;
+      color: var(--accent);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      text-decoration: underline;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+<div class="img-wrap">
+  <img src="/404.png" alt="404 - Not Found" />
+</div>
+<button class="btn" onclick="goHome()">Go to main page</button>
+
+<script>
+  function goHome() {
+    window.location.href = "/";
+  }
+</script>
+</body>
+</html>
