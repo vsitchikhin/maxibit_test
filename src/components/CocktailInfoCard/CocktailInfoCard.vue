@@ -26,12 +26,12 @@
       </v-col>
     </v-row>
     <div v-if="!mdAndUp" class="text-body-2 text-sm-body-1">Instructions:</div>
-    <div v-if="!mdAndUp" class="text-body-2 text-sm-body-1">{{ cocktailData.strInstructions }}</div>
+    <div v-if="!mdAndUp" class="text-body-2 text-sm-body-1 mb-8">{{ cocktailData.strInstructions }}</div>
     <v-row v-for="(ingredient, index) in cocktailData.ingredients" :key="index">
-      <v-col cols="3">
+      <v-col cols="6" sm="3">
         <div class="text-body-2 text-sm-body-1">{{ ingredient.measure }}</div>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="6" sm="3">
         <div class="text-body-2 text-sm-body-1">{{ ingredient.name }}</div>
       </v-col>
     </v-row>

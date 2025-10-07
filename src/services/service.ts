@@ -2,7 +2,6 @@ export class Service {
   apiUrl: string;
 
   public constructor() {
-    // todo: воткнуть урл в енвы
-    this.apiUrl = 'https://www.thecocktaildb.com/api/json/v1/1/';
+    this.apiUrl = import.meta.env.VITE_API_URL;
   }
 }

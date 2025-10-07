@@ -14,13 +14,6 @@ export default defineConfig({
       '~': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: '@use "@/styles/main" as *;',
-      },
-    },
-  },
   server: {
     port: 3000,
     open: true,
