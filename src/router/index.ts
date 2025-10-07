@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
-import { CocktailNamesEnum, DEFAULT_COCKTAIL } from '@/types/coctail.types';
+import { CocktailNamesEnum } from '@/types/coctail.types';
+import { DEFAULT_COCKTAIL } from '@/consts/cocktail.consts';
 
 const enumValues = Object.values(CocktailNamesEnum);
 const pattern = `(${enumValues.join('|')})`;
