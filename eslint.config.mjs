@@ -32,13 +32,11 @@ export default [
       indent: ['error', 2, { SwitchCase: 1 }],
       'object-curly-spacing': ['error', 'always'],
       'comma-dangle': ['error', 'always-multiline'],
-
       'prefer-promise-reject-errors': 'off',
       'prefer-regex-literals': 'off',
       'no-undef': 'off',
       'no-empty': 'off',
       'no-unused-vars': 'off',
-
       'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
       'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     },
@@ -51,7 +49,7 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: ['./tsconfig.json'],
+        projectService: true,
         tsconfigRootDir: __dirname,
       },
     },
@@ -86,7 +84,7 @@ export default [
         parser: tsParser,
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: ['./tsconfig.json'],
+        projectService: true,
         tsconfigRootDir: __dirname,
         extraFileExtensions: ['.vue'],
       },
@@ -96,25 +94,16 @@ export default [
       'vue/max-attributes-per-line': ['error', { singleline: 5, multiline: 1 }],
       'vue/singleline-html-element-content-newline': [
         'error',
-        {
-          ignoreWhenNoAttributes: true,
-          ignoreWhenEmpty: true,
-          ignores: ['pre', 'textarea', 'input', 'div', 'span', 'p', 'toco-link'],
-        },
+        { ignoreWhenNoAttributes: true, ignoreWhenEmpty: true, ignores: ['pre', 'textarea', 'input', 'div', 'span', 'p', 'toco-link'] },
       ],
       'vue/no-mutating-props': 'warn',
       'vue/no-v-model-argument': 'off',
       'vue/no-v-html': 'off',
       'vue/no-v-for-template-key': 'off',
       'vue/multi-word-component-names': ['error', { ignores: ['Error404', 'Index'] }],
-
       'vue/html-self-closing': [
         'error',
-        {
-          html: { void: 'always', normal: 'always', component: 'always' },
-          svg: 'always',
-          math: 'always',
-        },
+        { html: { void: 'always', normal: 'always', component: 'always' }, svg: 'always', math: 'always' },
       ],
 
       '@typescript-eslint/no-unsafe-argument': 'off',
@@ -136,6 +125,21 @@ export default [
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
+    },
+  },
+
+  {
+    files: ['vite.config.ts'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+    },
+    plugins: { '@typescript-eslint': ts },
+    rules: {
+      '@typescript-eslint/no-misused-promises': 'off',
     },
   },
 ]
