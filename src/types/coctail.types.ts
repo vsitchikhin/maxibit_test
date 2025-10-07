@@ -11,7 +11,7 @@ export type CocktailCode = `${CocktailNamesEnum}`
 
 // Точный Dto мне не известен, поэтому всем параметрам дал возможность быть нулями, чтобы избежать ошибок
 export interface ICocktail {
-  idDrink: string | null,
+  idDrink: string,
   strDrink: string | null,
   strDrinkAlternate: string | null,
   strTags: string | null,
@@ -62,6 +62,12 @@ export interface ICocktail {
   strImageAttribution: string | null,
   strCreativeCommonsConfirmed: string | null,
   dateModified: string | null,
+  ingredients?: Ingredient[],
+}
+
+export interface Ingredient {
+  name: string,
+  measure: string,
 }
 
 export type CocktailObject<T> = Record<CocktailCode, T>

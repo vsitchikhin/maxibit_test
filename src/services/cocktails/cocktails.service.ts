@@ -1,6 +1,6 @@
 import { Service } from '@/services/service';
 import { cocktailsStore } from '@/services/cocktails/cocktails.store';
-import type { CocktailNamesEnum, ICocktail } from '@/types/coctail.types';
+import type { CocktailNamesEnum, ICocktail, Ingredient } from '@/types/coctail.types';
 import { LoadingStatusesEnum } from '@/types/api.types';
 
 export class CocktailsService extends Service {
@@ -74,7 +74,10 @@ export class CocktailsService extends Service {
       }
 
       this.store.SET_COCKTAIL_STATE_BY_CODE(code, {
-        data: payload,
+        data: payload.map(cocktail => ({
+          ...cocktail,
+          ingredients: this.extractIngredients(cocktail),
+        })),
         status: LoadingStatusesEnum.loaded,
         error: null,
       });
@@ -112,5 +115,45 @@ export class CocktailsService extends Service {
     if (Array.isArray(raw)) return raw as ICocktail[];
 
     return 'Payload error';
+  }
+
+  public extractIngredients(cocktail: ICocktail) {
+    const ingredientPrefix = 'strIngredient';
+    const measurePrefix = 'strMeasure';
+
+    const ingredientRx = new RegExp(`^${ingredientPrefix}(\\d+)$`);
+    const measureRx = new RegExp(`^${measurePrefix}(\\d+)$`);
+
+    const ingredientList: Record<number, Ingredient> = {};
+
+    for (const [key, value] of Object.entries(cocktail)) {
+      if (value === null) {
+        continue;
+      }
+
+      let match = key.match(ingredientRx);
+      if (match) {
+        const index = Number(match[1]) - 1;
+        if (!ingredientList[index]) ingredientList[index] = { measure: '', name: '' };
+        ingredientList[index].name = value.trim();
+      }
+
+      match = key.match(measureRx);
+      if (match) {
+        const index = Number(match[1]) - 1;
+        if (!ingredientList[index]) ingredientList[index] = { measure: '', name: '' };
+        ingredientList[index].measure = value.trim();
+      }
+    }
+
+    return Object.keys(ingredientList)
+      .map(n => parseInt(n))
+      .sort((a, b) => a - b)
+      .map(index => {
+        if (!ingredientList[index]) ingredientList[index] = { measure: '', name: '' };
+        const { name, measure } = ingredientList[index];
+        return { index, name, measure };
+      })
+      .filter(item => !!item.name && item.name.trim() !== '' && !!item.measure && item.measure.trim() !== '');
   }
 }

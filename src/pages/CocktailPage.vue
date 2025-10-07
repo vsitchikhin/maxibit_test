@@ -4,23 +4,32 @@
       <v-col cols="2" class="pa-0 ma-0">
         <side-panel v-model="currentCode" :codes="cocktailCodeList" />
       </v-col>
-      <v-col cols="12" sm="10" class="pa-0 ma-0">
-        <cocktail-list />
+      <v-col cols="12" sm="10" class="py-0 px-4 ma-0">
+        <cocktail-info v-if="!!currentCocktail.data" :cocktail-info="currentCocktail.data" />
       </v-col>
     </v-row>
+    <v-snackbar
+      v-model="isShowToast"
+      :timeout="TOAST_TIMEOUT"
+      color="error"
+      location="top end"
+    >
+      {{ toastContent }}
+    </v-snackbar>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, type PropType, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, type PropType, ref, watch } from 'vue';
 import { CocktailsService } from '@/services/cocktails/cocktails.service';
 import { CocktailNamesEnum } from '@/types/coctail.types';
 import SidePanel from '@/components/SidePanel/SidePanel.vue';
-import CocktailList from '@/components/CocktailList/CocktailList.vue';
 import { useRouter } from 'vue-router';
+import CocktailInfo from '@/components/CocktailInfo/CocktailInfo.vue';
+import { TOAST_TIMEOUT } from '@/consts/core.consts';
 
 export default defineComponent({
-  components: { CocktailList, SidePanel },
+  components: { CocktailInfo, SidePanel },
   props: {
     cocktailCode: {
       type: String as PropType<CocktailNamesEnum>,
@@ -35,6 +44,16 @@ export default defineComponent({
     const router = useRouter();
 
     // ------------------------------------------------------
+    // Настройки всплывающих сообщений
+    const isShowToast = ref(false);
+    const toastContent = ref<string | null>(null);
+
+    function openToast(message: string | null) {
+      toastContent.value = message;
+      isShowToast.value = true;
+    }
+
+    // ------------------------------------------------------
     // Получение данных о необходимом коктейле
     async function fetchData() {
       const isDataExists = cocktailService.checkDataExists(props.cocktailCode);
@@ -42,7 +61,7 @@ export default defineComponent({
         const result = await cocktailService.getCocktailInfo(props.cocktailCode);
 
         if (!result) {
-          // todo: вывести тост с ошибкой
+          openToast(currentCocktail.value.error);
         }
       }
     }
@@ -60,7 +79,6 @@ export default defineComponent({
     // ------------------------------------------------------
     // Свойства для сайд панели
     const cocktailCodeList = Object.values(CocktailNamesEnum);
-
     const currentCode = ref(props.cocktailCode);
 
     watch(
@@ -73,9 +91,20 @@ export default defineComponent({
       },
     );
 
+    // ------------------------------------------------------
+    // Свойства для блока информации о коктейле
+    const cocktailList = computed(() => cocktailService.cocktails);
+    const currentCocktail = computed(() => cocktailList.value[currentCode.value]);
+
     return {
       cocktailCodeList,
       currentCode,
+
+      currentCocktail,
+
+      isShowToast,
+      toastContent,
+      TOAST_TIMEOUT,
     };
   },
 });

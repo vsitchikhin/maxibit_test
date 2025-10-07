@@ -19,6 +19,7 @@ export const vuetify = createVuetify({
           primary: '#2E2E2E',
           secondary: '#FF7B54',
           accent: '#00BFA6',
+          error: '#E53935',
         },
       },
     },
