@@ -1,2 +1,2 @@
-@use './variables' as *;
-@use './mixins/breakpoints' as *;
+@forward './variables';
+@forward './mixins/breakpoints';
