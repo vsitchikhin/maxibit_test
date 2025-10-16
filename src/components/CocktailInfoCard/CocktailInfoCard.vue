@@ -16,8 +16,6 @@
           cover
           :eager="false"
           aspect-ratio="1"
-          @error="onImageError"
-          @load="onImageLoad"
         >
           <template #placeholder>
             <v-skeleton-loader class="w-100 h-100" />
@@ -60,34 +58,17 @@ export default defineComponent({
     },
   },
   setup() {
-    const isImageLoaded = ref(false);
-
     const isShowToast = ref(false);
     const toastContent = ref<string | null>(null);
 
     const { mdAndUp } = useDisplay();
 
-    function onImageLoad() {
-      isImageLoaded.value = true;
-      toastContent.value = null;
-    }
-
-    function onImageError() {
-      isImageLoaded.value = false;
-      toastContent.value = 'Image loading error';
-      isShowToast.value = true;
-    }
-
     return {
-      isImageLoaded,
       isShowToast,
       toastContent,
       TOAST_TIMEOUT,
 
       mdAndUp,
-
-      onImageLoad,
-      onImageError,
     };
   },
 });
